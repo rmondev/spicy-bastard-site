@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-white border-b">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-2 pr-6 py-1">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-2 pr-8">
 
         {/* LEFT: Logo */}
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
