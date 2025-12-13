@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Image from 'next/image';
+import emailjs from '@emailjs/browser';
 
 type SauceChoice = "tropical-menace" | "none" | "";
 
@@ -53,11 +54,15 @@ export default function FeedbackCarousel() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  
 
   const isTropical = form.sauce === "tropical-menace";
   const isNone = form.sauce === "none";
 
   const totalSteps = isTropical ? 10 : isNone ? 4 : 1;
+
+
+
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -120,17 +125,32 @@ export default function FeedbackCarousel() {
     if (!canGoNext()) return;
     setSubmitting(true);
 
-    try {
-      // TODO: hook this up to EmailJS.
-      console.log("Feedback submitted:", form);
+  try {
+    const message = JSON.stringify(form, null, 2);
+
+    
+
+    const response = await emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      { message },
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+    );
+
+    console.log("EmailJS response:", message);
+
+    if (response.status === 200) {
       setSubmitted(true);
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong sending your feedback. Please try again.");
-    } finally {
-      setSubmitting(false);
+    } else {
+      throw new Error("EmailJS did not return OK");
     }
+  } catch (err) {
+    console.error("EmailJS error:", err);
+    alert("Something went wrong sending your feedback.");
+  } finally {
+    setSubmitting(false);
   }
+}
 
   if (submitted) {
     return (

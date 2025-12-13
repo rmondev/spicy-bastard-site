@@ -29,18 +29,21 @@ export default function ContactPage() {
                   href="mailto:youremail@example.com"
                   className="text-bastard-orange font-semibold hover:underline break-all"
                 >
-                  youremail@example.com
+                  spicybastardco@gmail.com
                 </a>
               </div>
 
-              <div className="mt-4">
+              {/* TODO: Add socials */}
+              
+              {/* <div className="mt-4">
                 <p className="text-xs uppercase tracking-[0.15em] text-zinc-500">
                   Instagram
                 </p>
                 <span className="text-zinc-800 font-semibold">
                   @spicybastardco
                 </span>
-              </div>
+              </div> */}
+
             </div>
           </section>
 
